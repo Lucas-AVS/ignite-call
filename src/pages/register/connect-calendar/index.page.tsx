@@ -1,21 +1,23 @@
 import { Button, Heading, MultiStep, Text } from '@lucasavs-ignite-ui/react'
 import { signIn, useSession } from 'next-auth/react'
-import { ArrowRight, Check } from 'phosphor-react'
 import { useRouter } from 'next/router'
+import { ArrowRight, Check } from 'phosphor-react'
 // import { api } from "../../../lib/axios"
 import { Container, Header } from '../styles'
 import { AuthError, ConnectBox, ConnectItem } from './styles'
-
 export default function ConnectCalendar() {
   const session = useSession()
   const router = useRouter()
-
   const hasAuthError = !!router.query.error
   const isSignedId = session.status === 'authenticated'
-
   async function handleConnectCalendar() {
     await signIn('google')
   }
+
+  async function handleNavigateToNextStep() {
+    await router.push('/register/time-intervals')
+  }
+
   return (
     <Container>
       <Header>
@@ -52,7 +54,11 @@ export default function ConnectCalendar() {
           </AuthError>
         )}
 
-        <Button type="submit" disabled={!isSignedId}>
+        <Button
+          onClick={handleNavigateToNextStep}
+          type="submit"
+          disabled={!isSignedId}
+        >
           Próximo passo
           <ArrowRight />
         </Button>
