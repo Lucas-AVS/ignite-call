@@ -15,7 +15,6 @@ export default async function handler(
   if (req.method !== 'PUT') {
     return res.status(405).end()
   }
-
   const session = await getServerSession(
     req,
     res,
